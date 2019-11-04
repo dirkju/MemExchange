@@ -13,7 +13,7 @@ namespace MemExchange.Server.Incoming
         private readonly ILogger logger;
         private readonly ISerializer serializer;
         private readonly IIncomingMessageQueue incomingMessageQueue;
-        private NetMQContext ctx;
+        //private NetMQContext ctx;
         private PullSocket responseSocket;
 
         private Thread listenThread;
@@ -28,9 +28,10 @@ namespace MemExchange.Server.Incoming
 
         public void Start(int listenPort)
         {
-            ctx = NetMQContext.Create();
-            responseSocket = ctx.CreatePullSocket();
-            responseSocket.Bind("tcp://*:" + listenPort);
+            //ctx = NetMQContext.Create();
+            //responseSocket = ctx.CreatePullSocket();
+            responseSocket = new PullSocket("tcp://*:" + listenPort);
+            //responseSocket.Bind("tcp://*:" + listenPort);
 
             isRunning = true;
             listenThread = new Thread(ListenForMessages);
@@ -64,7 +65,7 @@ namespace MemExchange.Server.Incoming
         {
             isRunning = false;
             responseSocket.Close();
-            ctx.Dispose();
+            responseSocket.Dispose();
 
             listenThread.Join(100);
             logger.Info("Message puller has stopped");

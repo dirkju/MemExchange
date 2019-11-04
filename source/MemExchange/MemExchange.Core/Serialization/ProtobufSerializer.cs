@@ -28,7 +28,7 @@ namespace MemExchange.Core.Serialization
             memStream.Seek(0, SeekOrigin.Begin);
             Serializer.SerializeWithLengthPrefix(memStream, inputInstance, PrefixStyle.Fixed32);
             bodySize = (int)memStream.Position;
-            
+
             return buf.Take(bodySize).ToArray();
         }
 

@@ -11,7 +11,7 @@ namespace MemExchange.Server.Outgoing
         private readonly ILogger logger;
         private readonly ISerializer serializer;
 
-        private NetMQContext ctx;
+        //private NetMQContext ctx;
         private PublisherSocket publishSocket;
 
         public MessagePublisher(ILogger logger, ISerializer serializer)
@@ -22,10 +22,10 @@ namespace MemExchange.Server.Outgoing
 
         public void Start(int publishPort)
         {
-            ctx = NetMQContext.Create();
-            publishSocket = ctx.CreatePublisherSocket();
+            //ctx = NetMQContext.Create();
+            //publishSocket = ctx.CreatePublisherSocket();
 
-            publishSocket.Bind("tcp://*:" + publishPort);
+            publishSocket = new PublisherSocket("tcp://*:" + publishPort);
             
             logger.Info("Message publisher started on port " + publishPort);
         }
@@ -48,7 +48,7 @@ namespace MemExchange.Server.Outgoing
             publishSocket.SendMoreFrame("a").SendFrame(serialized);
         }
 
-        public void OnNext(ServerToClientMessage data, long sequence, bool endOfBatch)
+        public void OnEvent(ServerToClientMessage data, long sequence, bool endOfBatch)
         {
             if (data.ReceiverClientId > 0)
                 Publish(data.ReceiverClientId, data);

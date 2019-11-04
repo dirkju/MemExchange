@@ -60,7 +60,7 @@ namespace MemExchange.Server.Incoming.Logging
             Console.WriteLine("Total data received: {0} mb.", GetTotalReceivedMb());
         }
 
-        public void OnNext(RingbufferByteArray data, long sequence, bool endOfBatch)
+        public void OnEvent(RingbufferByteArray data, long sequence, bool endOfBatch)
         {
             durationMeasurements.Add((dateService.UtcNow() - data.StartProcessTime).TotalMilliseconds);
             countSinceLastOutput ++;

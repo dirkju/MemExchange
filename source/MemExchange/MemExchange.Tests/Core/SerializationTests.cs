@@ -1,8 +1,6 @@
-﻿
-using System;
+﻿using System;
 using System.Diagnostics;
 using MemExchange.Core.Serialization;
-using MemExchange.Core.SharedDto.ClientToServer;
 using MemExchange.Core.SharedDto.Orders;
 using MemExchange.Core.SharedDto.ServerToClient;
 using NUnit.Framework;
@@ -28,11 +26,11 @@ namespace MemExchange.Tests.Core
                 item.LimitOrder.ExchangeOrderId = (uint)i;
 
                 var serialized = serializer.Serialize(item);
-                
+
                 var deserialized = serializer.Deserialize<ServerToClientMessage>(serialized);
-                
+
                 Assert.IsNotNull(deserialized);
-                Assert.AreEqual(i.ToString(), deserialized.Message );
+                Assert.AreEqual(i.ToString(), deserialized.Message);
                 Assert.AreEqual(ServerToClientMessageTypeEnum.LimitOrderAccepted, deserialized.MessageType);
                 Assert.AreEqual(i, deserialized.LimitOrder.ClientId);
                 Assert.AreEqual(i, deserialized.LimitOrder.ExchangeOrderId);
@@ -46,7 +44,7 @@ namespace MemExchange.Tests.Core
 
             for (int i = 0; i < 1000; i++)
             {
-                var s = serializer.Serialize(new ServerToClientMessage {MessageType = ServerToClientMessageTypeEnum.LimitOrderAccepted});
+                var s = serializer.Serialize(new ServerToClientMessage { MessageType = ServerToClientMessageTypeEnum.LimitOrderAccepted });
 
                 Assert.IsNotNull(s);
 
@@ -61,7 +59,7 @@ namespace MemExchange.Tests.Core
             var sw = new Stopwatch();
             var serializer = new ProtobufSerializer();
             var instance = new ServerToClientMessage();
-                        
+
             sw.Start();
             for (int i = 0; i < 5000000; i++)
                 serializer.Serialize(instance);
@@ -70,7 +68,7 @@ namespace MemExchange.Tests.Core
             sw.Stop();
             var elapsed = sw.ElapsedMilliseconds;
 
-            double perItem = (double)elapsed/(double)5000000;
+            double perItem = (double)elapsed / (double)5000000;
             Console.WriteLine("Total ms: " + elapsed);
             Console.WriteLine("Per item: " + perItem);
         }
@@ -95,7 +93,7 @@ namespace MemExchange.Tests.Core
             Console.WriteLine("Per item: " + perItem);
         }
 
-        
+
 
     }
 }

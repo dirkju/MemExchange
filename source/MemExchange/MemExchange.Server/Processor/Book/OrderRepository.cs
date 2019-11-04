@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Castle.Components.DictionaryAdapter;
 using MemExchange.Core.SharedDto;
 using MemExchange.Core.SharedDto.Orders;
 using MemExchange.Server.Processor.Book.Orders;
@@ -34,7 +33,7 @@ namespace MemExchange.Server.Processor.Book
         public IStopLimitOrder NewStopLimitOrder(string symbol, int clientId, double triggerPrice, double limitPrice, int quantity, WayEnum way)
         {
             if (!ClientStopLimitOrders.ContainsKey(clientId))
-                ClientStopLimitOrders.Add(clientId, new EditableList<IStopLimitOrder>());
+                ClientStopLimitOrders.Add(clientId, new List<IStopLimitOrder>());
 
             var trigger = new BestPriceTrigger(symbol, triggerPrice, way);
             var toReturn = new StopLimitOrder(symbol, quantity, limitPrice, triggerPrice, way, clientId, trigger );
@@ -69,7 +68,7 @@ namespace MemExchange.Server.Processor.Book
         public ILimitOrder NewLimitOrder(string symbol, int clientId, double price, int quantity, WayEnum way)
         {
             if (!ClientOrders.ContainsKey(clientId))
-                ClientOrders.Add(clientId, new EditableList<ILimitOrder>());
+                ClientOrders.Add(clientId, new List<ILimitOrder>());
 
             ILimitOrder toReturn = new LimitOrder(symbol, quantity, price, way, clientId);
             toReturn.SetExchangeOrderId(globalItemCounter);

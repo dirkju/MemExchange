@@ -33,7 +33,7 @@ namespace MemExchange.Server.Outgoing
 
         public void Start()
         {
-            messageDisrupter = new Disruptor<ServerToClientMessage>(() => new ServerToClientMessage(), new SingleThreadedClaimStrategy(ringbufferSize), new SleepingWaitStrategy(), TaskScheduler.Default);
+            messageDisrupter = new Disruptor<ServerToClientMessage>(() => new ServerToClientMessage(), ringbufferSize, TaskScheduler.Default, ProducerType.Single, new SleepingWaitStrategy());
             messageDisrupter.HandleEventsWith(publisher);
             messageRingBuffer = messageDisrupter.Start();
 

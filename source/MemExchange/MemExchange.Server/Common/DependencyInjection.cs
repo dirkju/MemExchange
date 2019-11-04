@@ -1,22 +1,12 @@
-﻿using Castle.MicroKernel.Registration;
-using Castle.Windsor;
-using MemExchange.Core.Logging;
-using MemExchange.Core.Serialization;
-using MemExchange.Server.Clients;
-using MemExchange.Server.Incoming;
-using MemExchange.Server.Incoming.Logging;
-using MemExchange.Server.Outgoing;
-using MemExchange.Server.Processor;
-using MemExchange.Server.Processor.Book;
-
-namespace MemExchange.Server.Common
+﻿namespace MemExchange.Server.Common
 {
     public class DependencyInjection
     {
-        public IWindsorContainer Container { get; private set; }
+        //public IWindsorContainer Container { get; private set; }
 
         public void Initialize()
         {
+            /*
             Container = new WindsorContainer();
             Container.Register(Component.For<IWindsorContainer>().Instance(Container));
             Container.Register(Component.For<ILogger>().ImplementedBy<SerilogLogger>().LifestyleSingleton());
@@ -30,7 +20,7 @@ namespace MemExchange.Server.Common
             Container.Register(Component.For<IMessagePublisher>().ImplementedBy<MessagePublisher>().LifestyleSingleton());
             Container.Register(Component.For<IDateService>().ImplementedBy<DateService>());
             Container.Register(Component.For<IPerformanceRecorder>().ImplementedBy<PerformanceRecorderDirectConsoleOutput>());
-            Container.Register(Component.For<IOrderDispatcher>().ImplementedBy<OrderDispatcher>().LifestyleSingleton());
+            Container.Register(Component.For<IOrderDispatcher>().ImplementedBy<OrderDispatcher>().LifestyleSingleton());*/
             
         }
     }

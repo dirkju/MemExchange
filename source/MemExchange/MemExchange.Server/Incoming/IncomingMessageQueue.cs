@@ -15,7 +15,7 @@ namespace MemExchange.Server.Incoming
         private readonly ILogger logger;
         private readonly IIncomingMessageProcessor messageProcessor;
         private readonly IPerformanceRecorder performanceRecorder;
-        private Disruptor<RingbufferByteArray> messageDisrupter;
+        private Disruptor<RingbufferByteArray> messageDisruptor;
         private RingBuffer<RingbufferByteArray> messageRingBuffer;
         
         public IncomingMessageQueue(ILogger logger, IIncomingMessageProcessor messageProcessor, IPerformanceRecorder performanceRecorder)
@@ -27,14 +27,14 @@ namespace MemExchange.Server.Incoming
 
         public void Start()
         {
-            messageDisrupter = new Disruptor<RingbufferByteArray>(() => new RingbufferByteArray(), new SingleThreadedClaimStrategy(ringbufferSize), new SleepingWaitStrategy(), TaskScheduler.Default);
+            messageDisruptor = new Disruptor<RingbufferByteArray>(() => new RingbufferByteArray(), ringbufferSize, TaskScheduler.Default, ProducerType.Single, new SleepingWaitStrategy());
             
             // Switch to this line to use busy spin input queue
-            //messageDisrupter = new Disruptor<RingbufferByteArray>(() => new RingbufferByteArray(), new SingleThreadedClaimStrategy(ringbufferSize), new BusySpinWaitStrategy(), TaskScheduler.Default);
+            //messageDisruptor = new Disruptor<RingbufferByteArray>(() => new RingbufferByteArray(), new SingleThreadedClaimStrategy(ringbufferSize), new BusySpinWaitStrategy(), TaskScheduler.Default);
             
-            messageDisrupter.HandleEventsWith(messageProcessor).Then(performanceRecorder);
-            messageDisrupter.HandleExceptionsWith(new IncomingMessageQueueErrorHandler());
-            messageRingBuffer = messageDisrupter.Start();
+            messageDisruptor.HandleEventsWith(messageProcessor).Then(performanceRecorder);
+            //messageDisruptor.HandleExceptionsWith(new IncomingMessageQueueErrorHandler());
+            messageRingBuffer = messageDisruptor.Start();
             performanceRecorder.Setup(messageRingBuffer, 5000);
 
             logger.Info("Incoming message queue started.");
@@ -42,7 +42,7 @@ namespace MemExchange.Server.Incoming
 
         public void Stop()
         {
-            messageDisrupter.Halt();
+            messageDisruptor.Halt();
             logger.Info("Incoming message queue stopped.");
         }
 
