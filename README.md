@@ -1,4 +1,4 @@
-This repository is no longer being maintained. All progress has been moved to the .net core version: https://github.com/ThomasVestergaard/MemExchange-dotnetcore
+This repository started out as a fork from https://github.com/ThomasVestergaard/MemExchange which is now https://gitlab.com/ThomasVestergaardFredsted/MemExchange-dotnetcore.
 
 # MemExchange
 C# in-memory stock exchange. Client-Server architecture.
@@ -93,4 +93,4 @@ exchangeClient.Stop();
 - Topshelf for windows services
 
 ## License
-See the [LICENSE](https://github.com/ThomasVestergaard/MemExchange/blob/master/LICENSE.md) file for license rights and limitations (MIT).
+See the [LICENSE](https://github.com/dirkju/MemExchange/blob/master/LICENSE.md) file for license rights and limitations (MIT).
